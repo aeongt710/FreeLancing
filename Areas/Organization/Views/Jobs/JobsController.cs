@@ -8,8 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using FreeLancing.Data;
 using FreeLancing.Models;
 
-namespace FreeLancing.Areas.Organization.Controllers
+namespace FreeLancing.Areas.Organization.Views.Jobs
 {
+    [Area("Organization")]
     public class JobsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -17,11 +18,6 @@ namespace FreeLancing.Areas.Organization.Controllers
         public JobsController(ApplicationDbContext context)
         {
             _context = context;
-        }
-
-        public IActionResult PostNewJob()
-        {
-            return View();
         }
 
         // GET: Organization/Jobs
