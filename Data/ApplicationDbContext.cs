@@ -10,5 +10,7 @@ namespace FreeLancing.Data
         {
 
         }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Job> Jobs { get; set; }
     }
 }

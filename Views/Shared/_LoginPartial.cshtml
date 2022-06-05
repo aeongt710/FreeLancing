@@ -2,9 +2,8 @@
 @if (signInManager.IsSignedIn(User))
 {
     <div >
-        <form id="logoutForm" asp-action="LogOff" class="row col-m-12 align-content-md-between" method="post" asp-controller="Account">
+        <form id="logoutForm" asp-area="Account" asp-controller="Account" asp-action="LogOff" class="row col-m-12 align-content-md-between" method="post" asp-controller="Account">
             <div class="text-decoration-none p-1 nav-link text-dark">Hello @User.Identity.Name</div>
-            @*<a asp-action="LogOff" asp-controller="Account" class="text-decoration-none p-1 nav-link text-dark">Logout</a>*@
             <a href="javascript:document.getElementById('logoutForm').submit()" class="text-decoration-none p-1 nav-link text-dark">Logout</a>
         </form>
     </div>
@@ -12,7 +11,6 @@
 else
 {
     <div class="row col-m-12 align-content-md-between">
-        <a asp-action="Login" asp-controller="Account" class="text-decoration-none p-1 nav-link text-dark">Login</a>
-        <a asp-action="Register" asp-controller="Account" class="text-decoration-none p-1 nav-link text-dark">Register</a>
+         <a class="text-decoration-none p-1 nav-link text-dark" asp-area="Account" asp-controller="Account" asp-action="LoginSignup">Login/Register</a>
     </div>
 }
