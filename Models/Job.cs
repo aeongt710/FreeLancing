@@ -19,7 +19,7 @@ namespace FreeLancing.Models
         public bool IsSubmitted { get; set; }
         public bool IsCompleted { get; set; }
         public int TagId { get; set; }
-        public Tag Tag { get; set; }
+        public CustomTag Tag { get; set; }
         public string OrganizationId { get; set; }
         public ApplicationUser Organization { get; set; }
     }

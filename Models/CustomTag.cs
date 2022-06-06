@@ -2,7 +2,7 @@
 
 namespace FreeLancing.Models
 {
-    public class Tag
+    public class CustomTag
     {
         public int Id { get; set; }
         [Required]

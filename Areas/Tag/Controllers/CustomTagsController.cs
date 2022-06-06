@@ -8,26 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using FreeLancing.Data;
 using FreeLancing.Models;
 
-namespace FreeLancing.Areas.Organization.Views.Jobs
+namespace FreeLancing.Areas.Tag.Controllers
 {
-    [Area("Organization")]
-    public class JobsController : Controller
+    public class CustomTagsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public JobsController(ApplicationDbContext context)
+        public CustomTagsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Organization/Jobs
+        // GET: Tag/CustomTags
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Jobs.Include(j => j.Organization).Include(j => j.Tag);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.CustomTags.ToListAsync());
         }
 
-        // GET: Organization/Jobs/Details/5
+        // GET: Tag/CustomTags/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,45 +33,39 @@ namespace FreeLancing.Areas.Organization.Views.Jobs
                 return NotFound();
             }
 
-            var job = await _context.Jobs
-                .Include(j => j.Organization)
-                .Include(j => j.Tag)
+            var customTag = await _context.CustomTags
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (job == null)
+            if (customTag == null)
             {
                 return NotFound();
             }
 
-            return View(job);
+            return View(customTag);
         }
 
-        // GET: Organization/Jobs/Create
+        // GET: Tag/CustomTags/Create
         public IActionResult Create()
         {
-            ViewData["OrganizationId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "TagText");
             return View();
         }
 
-        // POST: Organization/Jobs/Create
+        // POST: Tag/CustomTags/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Salary,Durtion,IsAssigned,SubmittedText,IsSubmitted,IsCompleted,TagId,OrganizationId")] Job job)
+        public async Task<IActionResult> Create([Bind("Id,TagText")] CustomTag customTag)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(job);
+                _context.Add(customTag);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrganizationId"] = new SelectList(_context.Users, "Id", "Id", job.OrganizationId);
-            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "TagText", job.TagId);
-            return View(job);
+            return View(customTag);
         }
 
-        // GET: Organization/Jobs/Edit/5
+        // GET: Tag/CustomTags/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,24 +73,22 @@ namespace FreeLancing.Areas.Organization.Views.Jobs
                 return NotFound();
             }
 
-            var job = await _context.Jobs.FindAsync(id);
-            if (job == null)
+            var customTag = await _context.CustomTags.FindAsync(id);
+            if (customTag == null)
             {
                 return NotFound();
             }
-            ViewData["OrganizationId"] = new SelectList(_context.Users, "Id", "Id", job.OrganizationId);
-            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "TagText", job.TagId);
-            return View(job);
+            return View(customTag);
         }
 
-        // POST: Organization/Jobs/Edit/5
+        // POST: Tag/CustomTags/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Salary,Durtion,IsAssigned,SubmittedText,IsSubmitted,IsCompleted,TagId,OrganizationId")] Job job)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TagText")] CustomTag customTag)
         {
-            if (id != job.Id)
+            if (id != customTag.Id)
             {
                 return NotFound();
             }
@@ -107,12 +97,12 @@ namespace FreeLancing.Areas.Organization.Views.Jobs
             {
                 try
                 {
-                    _context.Update(job);
+                    _context.Update(customTag);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JobExists(job.Id))
+                    if (!CustomTagExists(customTag.Id))
                     {
                         return NotFound();
                     }
@@ -123,12 +113,10 @@ namespace FreeLancing.Areas.Organization.Views.Jobs
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrganizationId"] = new SelectList(_context.Users, "Id", "Id", job.OrganizationId);
-            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "TagText", job.TagId);
-            return View(job);
+            return View(customTag);
         }
 
-        // GET: Organization/Jobs/Delete/5
+        // GET: Tag/CustomTags/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,32 +124,30 @@ namespace FreeLancing.Areas.Organization.Views.Jobs
                 return NotFound();
             }
 
-            var job = await _context.Jobs
-                .Include(j => j.Organization)
-                .Include(j => j.Tag)
+            var customTag = await _context.CustomTags
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (job == null)
+            if (customTag == null)
             {
                 return NotFound();
             }
 
-            return View(job);
+            return View(customTag);
         }
 
-        // POST: Organization/Jobs/Delete/5
+        // POST: Tag/CustomTags/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var job = await _context.Jobs.FindAsync(id);
-            _context.Jobs.Remove(job);
+            var customTag = await _context.CustomTags.FindAsync(id);
+            _context.CustomTags.Remove(customTag);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool JobExists(int id)
+        private bool CustomTagExists(int id)
         {
-            return _context.Jobs.Any(e => e.Id == id);
+            return _context.CustomTags.Any(e => e.Id == id);
         }
     }
 }

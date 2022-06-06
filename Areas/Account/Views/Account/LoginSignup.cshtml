@@ -26,9 +26,10 @@
     <title>LoginSignup</title>
 </head>
 <body>
+    
     @if (TempData["success"] != null)
-    {
-        <script type="text/javascript">
+{
+            <script type="text/javascript">
             toastr.options = {
               "closeButton": true,
               "debug": false,
@@ -48,13 +49,10 @@
             }
             toastr["success"]("@TempData["success"]");
         </script>
-    }
-    @if (TempData["error"] != null)
+}
+else if(TempData["error"] != null)
 {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    <script type="text/javascript">
+        <script type="text/javascript">
         toastr.options = {
           "closeButton": true,
           "debug": false,
@@ -73,10 +71,9 @@
           "hideMethod": "fadeOut"
         }
         toastr["error"]("@TempData["error"]");
-    </script>
+         </script>
 }
-
-    <div class="login">
+<div class="login">
         <div class="wrap">
             <!-- TOGGLE -->
             <div id="toggle-wrap">

@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - FreeLancing</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @*toastr*@
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 </head>
 <body>
     <header>
@@ -21,15 +23,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Organization" asp-controller="Jobs" asp-action="Index">Jobs</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Tag" asp-controller="CustomTags" asp-action="Index">Tags</a>
+                        </li>
                     </ul>
-                                        <div>
+                    <div>
                         <partial name="_LoginPartial" />
                     </div>
                 </div>
             </div>
         </nav>
     </header>
+    <partial name="_Notification" />
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
