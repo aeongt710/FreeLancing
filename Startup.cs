@@ -37,6 +37,7 @@ namespace FreeLancing
                 .AddEntityFrameworkStores < ApplicationDbContext>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IJobService, JobService>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

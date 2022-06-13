@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace FreeLancing.Services
 {
@@ -24,6 +25,15 @@ namespace FreeLancing.Services
             _signInManager = signInManager;
             _roleManager = roleManager;
             _dbContext = dbContext;
+        }
+
+        public IList<Job> GetPostedJobs(string organizationEmail)
+        {
+            return _dbContext.Jobs
+                .Include(a=>a.Organization)
+                    .Include(c=>c.Tag)
+                        .Where(b=>(b.Organization.Email == organizationEmail))
+                            .ToList();
         }
 
         public IList<CustomTag> GetTagList()

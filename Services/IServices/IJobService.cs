@@ -10,5 +10,6 @@ namespace FreeLancing.Services.IServices
     {
         public Task<bool> PostNewJob(PostNewJobVM postNewJobVM);
         public IList<CustomTag> GetTagList();
+        public IList<Job> GetPostedJobs(string organizationEmail);
     }
 }

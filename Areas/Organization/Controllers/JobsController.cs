@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FreeLancing.Areas.Organization.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Organization")]
     public class JobsController : Controller
     {
         private readonly IJobService _jobService;
@@ -19,8 +19,9 @@ namespace FreeLancing.Areas.Organization.Controllers
 
         public IActionResult Index()
         {
+            var postedJobs=_jobService.GetPostedJobs(HttpContext.User.Identity.Name);
             TempData["success"] = "Job Posted Sucessfully";
-            return View();
+            return View(postedJobs);
         }
         public IActionResult PostNewJob()
         {
@@ -28,6 +29,7 @@ namespace FreeLancing.Areas.Organization.Controllers
             return View();
         }
         [HttpPost]
+        [ActionName("PostNewJob")]
         public async Task<IActionResult> PostNewJobAsync(PostNewJobVM postNewJobVM)
         {
             if(ModelState.IsValid)

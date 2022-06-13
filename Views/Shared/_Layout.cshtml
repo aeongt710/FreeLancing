@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="~/css/site.css" />
     @*toastr*@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    @*svgs*@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
@@ -20,12 +22,29 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Organization" asp-controller="Jobs" asp-action="Index">Jobs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Tag" asp-controller="CustomTags" asp-action="Index">Tags</a>
-                        </li>
+                        @if (User.IsInRole("Organization"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Organization" asp-controller="Jobs" asp-action="Index">Posted</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Organization" asp-controller="Jobs" asp-action="PostNewJob">Post New Job</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Employee"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Employee" asp-controller="Employees" asp-action="Index">Available Jobs</a>
+                            </li>
+
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Tag" asp-controller="CustomTags" asp-action="Index">Tags</a>
+                            </li>
+                        }
+
                     </ul>
                     <div>
                         <partial name="_LoginPartial" />
