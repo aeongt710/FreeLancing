@@ -14,9 +14,12 @@ namespace FreeLancing.Areas.Organization.Controllers
     public class JobsController : Controller
     {
         private readonly IJobService _jobService;
-        public JobsController(IJobService jobService)
+        private readonly IChattingService _chattingService;
+
+        public JobsController(IJobService jobService, IChattingService chattingService)
         {
-            _jobService=jobService;
+            _jobService = jobService;
+            _chattingService = chattingService;
         }
 
         public IActionResult Index()
@@ -54,6 +57,15 @@ namespace FreeLancing.Areas.Organization.Controllers
             List<Bid> bids=new List<Bid>();
             bids = (List<Bid>)_jobService.GetBidsOnJob(jobId);
             return View(bids);
+        }
+        //[Route("PrivateChat/{name}")]
+        public IActionResult Chat(string email)
+        {
+            if (_chattingService.UserExists(email))
+            {
+                return View(nameof(Chat), email);
+            }
+            return NotFound("User Not Found!");
         }
 
         public IActionResult test()
