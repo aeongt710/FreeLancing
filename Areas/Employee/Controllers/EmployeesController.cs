@@ -10,9 +10,11 @@ namespace FreeLancing.Areas.Employee.Controllers
     public class EmployeesController : Controller
     {
         private readonly IEmployeeService _employeeService;
-        public EmployeesController(IEmployeeService employeeService)
+        private readonly IChattingService _chattingService;
+        public EmployeesController(IEmployeeService employeeService, IChattingService chattingService)
         {
             _employeeService = employeeService;
+            _chattingService = chattingService;
         }
         public async Task<IActionResult> Index()
         {
@@ -41,6 +43,19 @@ namespace FreeLancing.Areas.Employee.Controllers
                 }
             }
             return View(bid);
+        }
+        public async Task<IActionResult> Bids()
+        {
+            var bids = await _employeeService.GetCurrentBids(HttpContext.User.Identity.Name);
+            return View(bids);
+        }
+        public IActionResult Chat(string email)
+        {
+            if (_chattingService.UserExists(email))
+            {
+                return View(nameof(Chat), email);
+            }
+            return NotFound("User Not Found!");
         }
     }
 }

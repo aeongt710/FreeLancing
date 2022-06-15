@@ -4,6 +4,10 @@
     text-align: -webkit-center;
 }
 
+body{
+    margin-bottom:60px;
+}
+
 *,
 *::before,
 *::after {
@@ -43,7 +47,7 @@ img {
 
 .chat {
     width: 80%;
-    max-width: 400px;
+    max-width: 250px;
     min-width: 100%;
     min-height: 630px;
     max-height: 630px;
@@ -140,17 +144,18 @@ img {
 
 .send-message {
     width: 100%;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 80px;
+    /*padding-right: 30px;*/
     /*padding: 1rem;*/
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
 }
 
 .message-text {
+    margin-right: 30px;
     height: 50%;
-    width: 80%;
+    width: 100%;
     background: white;
     padding: 1rem 1.2rem;
     border-radius: 100vw;

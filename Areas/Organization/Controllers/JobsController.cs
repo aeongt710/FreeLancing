@@ -58,7 +58,6 @@ namespace FreeLancing.Areas.Organization.Controllers
             bids = (List<Bid>)_jobService.GetBidsOnJob(jobId);
             return View(bids);
         }
-        //[Route("PrivateChat/{name}")]
         public IActionResult Chat(string email)
         {
             if (_chattingService.UserExists(email))

@@ -40,7 +40,7 @@
                         @Html.DisplayFor(modelItem => item.Job.Durtion)
                     </td>
                     <td>
-                        <a asp-action="Chat" asp-route-email="@item.Bidder.Email"><i class="bi bi-chat-left-text" style="font-size: 21px;"></i></a>
+                        <a asp-action="Chat" asp-route-email="@item.Job.Organization.Email"><i class="bi bi-chat-left-text" style="font-size: 21px;"></i></a>
                     </td>
                 </tr>
             }

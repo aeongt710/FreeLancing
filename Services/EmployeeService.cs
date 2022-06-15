@@ -51,6 +51,16 @@ namespace FreeLancing.Services
                                 .ToList();
         }
 
+        public async Task<List<Bid>> GetCurrentBids(string email)
+        {
+            var user = await _userManager.FindByNameAsync(email);
+            return _dbContext.Bids
+                .Include(a => a.Job).ThenInclude(b => b.Organization)
+                    .Include(c => c.Job).ThenInclude(d => d.Tag)
+                        .Include(e => e.Bidder)
+                            .Where(x => x.BidderId == user.Id).ToList();
+        }
+
 
     }
 }
