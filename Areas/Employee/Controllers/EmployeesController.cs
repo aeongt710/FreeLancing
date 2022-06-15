@@ -14,9 +14,9 @@ namespace FreeLancing.Areas.Employee.Controllers
         {
             _employeeService = employeeService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var jobs = _employeeService.GetAvailableJobs();
+            var jobs = await _employeeService.GetAvailableJobs(HttpContext.User.Identity.Name);
             return View(jobs);
         }
         public IActionResult BidNow(int jobId)

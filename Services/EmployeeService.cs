@@ -40,14 +40,17 @@ namespace FreeLancing.Services
         {
             var user = await _userManager.FindByNameAsync(email);
             var bids = _dbContext.Bids
-                .Where(a=>a.BidderId==user.Email)
+                .Where(a=>a.BidderId==user.Id)
                     .Select(c => c.JobId)
                         .ToList(); 
             return _dbContext.Jobs
                 .Include(a => a.Organization)
                     .Include(b => b.Tag)
-                        .Where(c=>(c.IsAssigned == false)&&!bids.Contains)
-                            .ToList();
+                        .Include(d => d.JobBids)
+                            .Where(c => (c.IsAssigned == false) && !bids.Contains(c.Id))
+                                .ToList();
         }
+
+
     }
 }

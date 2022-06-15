@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using FreeLancing.Models.VMs;
+using FreeLancing.Models.ApiModels;
 
 namespace FreeLancing.Data
 {
@@ -14,6 +15,8 @@ namespace FreeLancing.Data
         public DbSet<CustomTag> CustomTags { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Bid> Bids { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<GlobalMessage> GlobalMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

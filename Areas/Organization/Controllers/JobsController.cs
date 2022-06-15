@@ -1,8 +1,10 @@
-﻿using FreeLancing.Models.VMs;
+﻿using FreeLancing.Models;
+using FreeLancing.Models.VMs;
 using FreeLancing.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,6 +47,13 @@ namespace FreeLancing.Areas.Organization.Controllers
             }
             ViewBag.TagList = _jobService.GetTagList().Select(p => new SelectListItem { Text = p.TagText, Value = p.Id.ToString() }).ToList();
             return View();
+        }
+
+        public IActionResult BidsOnJob(int jobId)
+        {
+            List<Bid> bids=new List<Bid>();
+            bids = (List<Bid>)_jobService.GetBidsOnJob(jobId);
+            return View(bids);
         }
 
         public IActionResult test()

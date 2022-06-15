@@ -1,3 +1,4 @@
+using FreeLancing.Chat;
 using FreeLancing.Data;
 using FreeLancing.Models;
 using FreeLancing.Services;
@@ -38,6 +39,8 @@ namespace FreeLancing
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IJobService, JobService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IChattingService, ChattingService>();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +67,7 @@ namespace FreeLancing
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{area=homepage}/{controller=homepage}/{action=Index}/{id?}");

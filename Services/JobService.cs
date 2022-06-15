@@ -32,8 +32,9 @@ namespace FreeLancing.Services
             return _dbContext.Jobs
                 .Include(a=>a.Organization)
                     .Include(c=>c.Tag)
-                        .Where(b=>(b.Organization.Email == organizationEmail))
-                            .ToList();
+                        .Include(d=>d.JobBids)
+                            .Where(b=>(b.Organization.Email == organizationEmail))
+                                .ToList();
         }
 
         public IList<CustomTag> GetTagList()
@@ -61,6 +62,20 @@ namespace FreeLancing.Services
             if (result > 0)
                 return true;
             return false;
+        }
+        public IList<Bid> GetBidsOnJob(int jobId)
+        {
+            return _dbContext.Jobs
+                .Include(a => a.Organization)
+                    .Include(c => c.Tag)
+                        .Include(d => d.JobBids)
+                            .Where(b => (b.Id == jobId))
+                                .Include(e=>e.JobBids)
+                                    .ThenInclude(f=>f.Bidder)
+                                        .Include(h=>h.JobBids)
+                                            .ThenInclude(g=>g.Job)
+                                                .Select(e => e.JobBids)
+                                                    .FirstOrDefault();
         }
     }
 }
