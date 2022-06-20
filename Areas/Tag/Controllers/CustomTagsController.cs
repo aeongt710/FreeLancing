@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FreeLancing.Data;
 using FreeLancing.Models;
+using FreeLancing.Utility;
 
 namespace FreeLancing.Areas.Tag.Controllers
 {
@@ -20,9 +21,12 @@ namespace FreeLancing.Areas.Tag.Controllers
         }
 
         // GET: Tag/CustomTags
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            return View(await _context.CustomTags.ToListAsync());
+            //var list=await _context.CustomTags.ToListAsync();
+
+            int pageSize = 3;
+            return View(await PaginatedList<CustomTag>.CreateAsync(_context.CustomTags.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Tag/CustomTags/Details/5
