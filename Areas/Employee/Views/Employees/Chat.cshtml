@@ -5,6 +5,7 @@
     <script src="~/js/signalr.js"></script>
     <script src="~/js/privateChat.js"></script>
 
+
 <h3 id="receiverName" hidden>@Model</h3>
 @*<script src="~/lib/signalR/dist/browser/signalr.js"></script>*@
 
@@ -16,12 +17,27 @@
             <div class="chat-texts" id="allMessages">
 
 
+
+
+@*                <div class="single-text">
+                    <div class="profile-pic"> <img src="~/img/vectors/person.png" alt=""> </div>
+                    <div class="text-content"><h5>Joannie</h5>Lorem ipsum dolor sit amet.<span class="timestamp">12:00hrs</span></div>
+                </div>
+
+                <div class="single-text sent">
+                    <div class="profile-pic"><img src="~/img/vectors/person.png" alt=""></div>
+                    <div class="text-content"><h5>Laurie</h5>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates, saepe?<span class="timestamp">12:00hrs</span></div>
+                </div>*@
+
+
             </div>
 
 
             <div class="send-message">
                 <div class="message-text">
+                    @*<div class="smiley"><i class="lni lni-smile"></i></div>*@
                     <input type="text" id="messageInput" placeholder="Send Message">
+                    @*<div class="attachment"><i class="lni lni-upload"></i></div>*@
                 </div>
                 <button class="chat-btn" id="sendBTN" onclick="sendPrivateMessage();"><i class="lni lni-arrow-right-circle"><i class="bi bi-send-fill"></i></i></button>
             </div>

@@ -5,14 +5,22 @@ var connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Information)
     .build();
 
-
 connection.on("ReceivePrivateMessage", function (message) {
     //console.log(message);
     //<i class="bi bi-person"></i>     <img src="/img/vectors/person.png" alt=""></div>
-    if (message.isSender)
-        $("#allMessages").append(`<div class="single-text sent"> <div class= "profile-pic" ><i class="bi bi-person"></i>     <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `);
-    else
-        $("#allMessages").append(`<div class="single-text"><div class="profile-pic">        <i class="bi bi-person"></i>     <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div></div>`);
+    if (message.isSender) {
+        console.log(message);
+        var x = `<div class="single-text sent"> <div class= "profile-pic" > </div>   <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `;
+        $("#allMessages").append(x);
+    } else {
+        $("#allMessages").append(`<div  class="single-text"><div class="profile-pi">        <i class="bi bi-person"></i>   </div>  <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div></div>`);
+
+    }
+    //$(`#${a}`).show();
+
+    $("#allMessages").scrollTop($("#allMessages")[0].scrollHeight);
+
+        //$("#allMessages").append(`<div class="single-text"><div class="profile-pic">        <i class="bi bi-person"></i>     <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div></div>`);
     //$('#allMessages').slideToggle();
     //$('#chat-texts').style.display = "block";
     //$("#chat-texts").css("display", "block");
@@ -31,13 +39,19 @@ window.addEventListener("load", function () {
 
         contentType: 'application/json',
         success: function (response) {
-            console.log("on load ", response);
             response.dataenum.forEach(function (message) {
-                
-                if (message.isSender)
-                    $("#allMessages").append(`<div class="single-text sent"> <div class= "profile-pic" ><img src="/img/vectors/person.png" alt=""></div>    <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `);
-                else
-                    $("#allMessages").append(`<div class="single-text"><div class="profile-pic">        <img src="/img/vectors/person.png" alt=""></div>    <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div></div>`);
+
+                if (message.isSender) {
+                    //document.getElementById('allMessages').innerHTML += `<div class="single-text sent"> <div class= "profile-pic" ><img src="/img/vectors/person.png" alt=""></div>    <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `;
+                    $("#allMessages").append(`<div class="single-text sent"> <div class= "profile-pi" > <i class="bi bi-person"></i></div>    <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `);
+
+                }
+                else {
+                    //document.getElementById('allMessages').innerHTML += `<div class="single-text sent"> <div class= "profile-pic" ><img src="/img/vectors/person.png" alt=""></div>    <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `;
+                    $("#allMessages").append(`<div class="single-text"><div class="profile-pic">     <i class="bi bi-person"></i></div>    <div class="text-content"><h5>${message.sender+"asd"}</h5>${message.text}<span class="timestamp">${message.time}</span></div></div>`);
+
+                }
+                $("#allMessages").scrollTop($("#allMessages")[0].scrollHeight);
             });
         },
         error: function (xhr) {
