@@ -16,8 +16,13 @@ namespace FreeLancing.Areas.Employee.Controllers
             _employeeService = employeeService;
             _chattingService = chattingService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string query)
         {
+            if(query !=null)
+            {
+                var queryJobs = await _employeeService.GetAvailableJobsSearch(HttpContext.User.Identity.Name, query);
+                return View(queryJobs);
+            }
             var jobs = await _employeeService.GetAvailableJobs(HttpContext.User.Identity.Name);
             return View(jobs);
         }

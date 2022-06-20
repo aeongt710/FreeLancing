@@ -50,6 +50,21 @@ namespace FreeLancing.Services
                             .Where(c => (c.IsAssigned == false) && !bids.Contains(c.Id))
                                 .ToList();
         }
+        public async Task<List<Job>> GetAvailableJobsSearch(string email,string query)
+        {
+            var user = await _userManager.FindByNameAsync(email);
+            var bids = _dbContext.Bids
+                .Where(a => a.BidderId == user.Id)
+                    .Select(c => c.JobId)
+                        .ToList();
+            return _dbContext.Jobs
+                .Include(a => a.Organization)
+                    .Include(b => b.Tag)
+                        .Include(d => d.JobBids)
+                        .Where(e=>(e.Title.ToLower().Contains(query.ToLower())||query.ToLower().Contains(e.Title.ToLower())|| e.Tag.TagText.ToLower().Contains(query.ToLower()) || query.ToLower().Contains(e.Tag.TagText.ToLower())))
+                            .Where(c => (c.IsAssigned == false) && !bids.Contains(c.Id))
+                                .ToList();
+        }
 
         public async Task<List<Bid>> GetCurrentBids(string email)
         {

@@ -6,74 +6,401 @@
 
 <br />
 <h1>Posted Jobs</h1>
+<form asp-action="Index" method="get">
+    <div id="wrapper">
+        <div class="wiki">
+            <input type="search" name="query" id="search" placeholder="Enter Name/Tag">
+            <button class="search" type="submit">Search</button>
+        </div>
+        <div class="outcome"></div>
+    </div>
+</form>
 
 
-<br />
-
-<table class="table">
+<hr />
+@*<table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Durtion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tag)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsAssigned)
-            </th>
-            <th>
-                View Bids
-            </th>
+    <tr>
+    <th>
+    @Html.DisplayNameFor(model => model.Title)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Description)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Salary)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Durtion)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Tag)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.IsAssigned)
+    </th>
+    <th>
+    View Bids
+    </th>
 
 
 
-        </tr>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Salary)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Durtion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tag.TagText)
-                </td>
+    @foreach (var item in Model)
+    {
+    <tr>
+    <td>
+    @Html.DisplayFor(modelItem => item.Title)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Salary)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Durtion)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Tag.TagText)
+    </td>
 
-                <td>
-                    @if (item.IsAssigned)
-                    {
-                        <div>asigned to</div>
-                    }
-                    else
-                    {
-                        <i class="bi bi-hourglass-split btn-group-vertical" style="font-size: 21px; color: cornflowerblue;"></i>
-                    }
-                </td>
-                <td>
-                    <a asp-action="BidNow" asp-route-jobId="@item.Id">Bid Now</a>
-                </td>
+    <td>
+    @if (item.IsAssigned)
+    {
+    <div>asigned to</div>
+    }
+    else
+    {
+    <i class="bi bi-hourglass-split btn-group-vertical" style="font-size: 21px; color: cornflowerblue;"></i>
+    }
+    </td>
+    <td>
+    <a asp-action="BidNow" asp-route-jobId="@item.Id">Bid Now</a>
+    </td>
 
-            </tr>
-        }
+    </tr>
+    }
     </tbody>
-</table>
+    </table>
+*@
+
+
+
+
+<div class="main_container" onclick="javascript:document.getElementById('clickLink').click();">
+    @foreach (var item in Model)
+    {
+        <a asp-action="BidNow" id="clickLink" asp-route-jobId="@item.Id">
+            <div class="card_containerx">
+                <div class="cardx">
+                    <div class="upperx">
+                        <div class="vectorx">
+
+                            <img src="~/img/vectors/work_48px.png" alt="a" onerror=" this.src= '/vectors/service_provider_2x_alt.png'; " width="64" height="64">
+                        </div>
+                        <div class="contentx">
+                            <h1 class="titlex"><a asp-action="BidNow" asp-route-jobId="@item.Id" class="titlex_a">@item.Title (@item.Tag.TagText)</a></h1>
+                            <h3 class="valuex">@item.Durtion</h3>
+                        </div>
+                    </div>
+                    <div>
+                        <hr />
+                    </div>
+                    <div class="lowerx">
+                        <h4 class="h4_emailx">@item.Organization.FullName</h4>
+                       <a class="a_buy_link buy_button btn btn-primary" asp-action="BidNow" asp-route-jobId="@item.Id">Bid Now</a>
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
+</div>
+<style>
+    @@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+    @@import url(https://fonts.googleapis.com/css?family=Abril+Fatface);
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .clearfix::before, .clearfix::after {
+        content: "";
+        display: table;
+    }
+
+    .clearfix::after {
+        clear: both;
+    }
+
+
+
+    #wrapper {
+        max-width: 60rem;
+        width: 100%;
+        margin-left: 5rem;
+        /*margin: 1rem auto;*/
+        /*padding: 2rem;*/
+        background: #fff;
+        border: 1px solid transparent;
+    }
+
+    input {
+        display: inline-block;
+        outline: 0;
+        border: none;
+        border-bottom: 2px solid #000;
+        width: 80%;
+        /*margin-bottom: 3rem;*/
+        padding: 0.25rem;
+        font-family: 'Dosis', sans-serif;
+        font-size: 1.5rem;
+        font-style: italic;
+        color: #1c1c1c;
+        height: 40px;
+    }
+
+    button.search {
+        display: inline-block;
+        background-color: transparent;
+        letter-spacing: 0.15em;
+        text-transform: uppercase !important;
+        font-size: 1rem;
+        font-weight: 700;
+        border: 2px solid #999;
+        border-bottom: 5px solid #999;
+        border-radius: 40px;
+        color: #333;
+        border-radius: 40px;
+        display: inline-block;
+        padding: 8px 40px;
+        cursor: pointer;
+        outline: 0;
+        transition: all 0.35s;
+    }
+
+        button.search:hover {
+            background-color: #2995E2;
+            color: #f5f5f5;
+        }
+
+    /*h1 {
+      margin-bottom: 2rem;
+      text-align: center;
+      text-transform: capitalize;
+      font-family: 'Abril Fatface', cursive;
+      font-size: 250%;
+    }
+
+    h2  {
+      margin-bottom: 3px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #f96816;
+    }*/
+
+    /*a.read-more {
+      color: #2995E2;
+      margin-top: 5px;
+      display: block;
+    }
+
+    ul {
+      list-style: none;
+    }*/
+
+    /*ul li {
+      margin-bottom: 10px;
+      border-left: 7px solid transparent;
+      line-height: 1.9;
+      background: #eee;
+      padding: 15px;
+      transition: all 0.35s;
+      border-radius: 10px;
+    }
+
+    ul li:hover {
+      border-left: 7px solid #2995E2;
+      transition: all 0.35s;
+    }
+    */
+    @@media (max-width: 57.1875rem) {
+        #wrapper {
+            width: 80%;
+        }
+
+        input {
+            width: 60%;
+        }
+
+        button.search {
+            font-size: 0.75rem;
+            padding: 8px 20px;
+            margin: 0 0 10px 3px;
+        }
+    }
+
+    @@media (max-width: 38.75rem) {
+        #wrapper {
+            width: 95%;
+        }
+
+        input {
+            width: 60%;
+        }
+    }
+
+    @@media (max-width: 27.5rem) {
+        body {
+            font-size: 12px;
+        }
+
+        input, #wrapper {
+            width: 100%;
+        }
+
+        input {
+            margin-bottom: 1rem;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*old*/
+    .main_container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .a_buy_link {
+        color: white;
+        text-decoration: none;
+    }
+
+        .a_buy_link:hover {
+            color: white;
+            text-decoration: none;
+        }
+
+    .buy_button {
+        /*margin-top: 0px;*/
+        border: none;
+        background-color: #1b6ec2;
+        color: white;
+        font-weight: 400%;
+        margin-right: 20px;
+        height: 35px;
+        border-radius: 8px;
+    }
+
+        .buy_button:hover {
+            background-color: #999;
+            /*color: #1b6ec2;*/
+        }
+
+    .lowerx {
+        display: flex;
+        justify-content: space-between;
+        /*padding-bottom: 20px;*/
+    }
+
+    .h4_emailx {
+        padding-top: 5px;
+        font-size: 15px;
+        padding-bottom: 20px;
+        padding-left: 30px;
+        font-family: Verdana;
+        color: #999;
+    }
+
+    .upperx {
+        display: flex;
+    }
+
+    @@media screen and (max-width: 536px) {
+        .card_containerx {
+            justify-content: center;
+            /*background-color: aqua;*/
+            padding: 0px;
+        }
+    }
+
+    .card_containerx {
+        display: flex;
+        /* background-color: aqua   ; */
+        align-items: center;
+        /* justify-content: space-between; */
+        flex-wrap: wrap;
+        /*padding: 20px 10px;*/
+        align-items: center;
+    }
+
+    .cardx {
+        box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+        width: 500px;
+        height: 170px;
+        display: flex;
+        justify-content: space-around;
+        margin: 20px;
+        flex-direction: column;
+    }
+
+        .cardx:hover {
+            background-color: rgb(0 0 0 / 10%);
+        }
+
+    .vectorx {
+        margin-top: 30px;
+        margin-left: 20px;
+        margin-right: 15px;
+        margin-bottom: 10px;
+        flex: 0.1;
+    }
+
+    .contentx {
+        margin-top: 30px;
+        /* margin-bottom: 30px; */
+        flex: 0.7;
+    }
+
+    .titlex {
+        color: #444;
+        font-size: 180% !important;
+        text-decoration: none;
+    }
+
+    .titlex_a {
+        color: #444;
+        font-size: 100% !important;
+    }
+
+        .titlex_a:hover {
+            text-decoration: none;
+        }
+
+    .valuex {
+        font-family: 'Times New Roman';
+        color: #999;
+        font-size: 130% !important;
+    }
+</style>
