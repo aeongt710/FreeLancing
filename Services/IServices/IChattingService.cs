@@ -11,5 +11,6 @@ namespace FreeLancing.Services.IServices
         public Task<List<GlobalChatMessage>> GetGlobalMessages(string user);
         public bool UserExists(string name);
         public Task<List<PrivateChatMessage>> GetPrivateMessages(apiPOST users);
+        public Task<bool> SendNotificationToUser(string userId, string msg);
     }
 }

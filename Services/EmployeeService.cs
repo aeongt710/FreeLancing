@@ -75,6 +75,10 @@ namespace FreeLancing.Services
                         .Include(e => e.Bidder)
                             .Where(x => x.BidderId == user.Id).ToList();
         }
+        public Bid GetBidById(int Id)
+        {
+            return _dbContext.Bids.Include(a=>a.Job).FirstOrDefault(a => a.Id == Id);
+        }
 
 
     }

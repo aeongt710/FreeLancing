@@ -1,8 +1,8 @@
 ﻿
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 @if (TempData["success"] != null)
-{ <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+{ 
             <script type="text/javascript">
             toastr.options = {
               "closeButton": true,
@@ -26,8 +26,7 @@
 }
 else if(TempData["error"] != null)
 {
-     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+     
         <script type="text/javascript">
         toastr.options = {
           "closeButton": true,

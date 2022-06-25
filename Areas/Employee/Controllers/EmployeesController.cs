@@ -28,7 +28,6 @@ namespace FreeLancing.Areas.Employee.Controllers
         }
         public IActionResult BidNow(int jobId)
         {
-
             if (jobId == 0)
                 return NotFound();
             var bid=new Bid() { JobId = jobId };
@@ -43,6 +42,8 @@ namespace FreeLancing.Areas.Employee.Controllers
                 var result= await _employeeService.AddNewBid(bid,HttpContext.User.Identity.Name);
                 if(result)
                 {
+                    Bid x = _employeeService.GetBidById(bid.Id);
+                    await _chattingService.SendNotificationToUser(bid.Job.OrganizationId,HttpContext.User.Identity.Name+" bidded on your job.");
                     TempData["success"] = "Successfully Bidded";
                     return RedirectToAction(nameof(Index));
                 }

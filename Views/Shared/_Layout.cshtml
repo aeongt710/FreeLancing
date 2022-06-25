@@ -36,6 +36,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Employee" asp-controller="Employees" asp-action="Index">Available Jobs</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Employee" asp-controller="Employees" asp-action="Bids">Bids </a>
+                            </li>
 
                         }
                         @if (User.IsInRole("Admin"))
@@ -69,8 +72,11 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
+    <link rel="stylesheet" href="~/css/privateChat.css" />
+    <script src="~/js/signalr.js"></script>
+    <script src="~/js/privateChat.js"></script>
 
-
+    
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -7,6 +7,7 @@ namespace FreeLancing.Models
         public int Id { get; set; }
         [Required]
         [Display(Name ="Bid Amount")]
+        [Range(1,int.MaxValue)]
         public int BidAmount { get; set; }
         public string Description { get; set; }
         public string BidderId { get; set; }

@@ -27,13 +27,13 @@ namespace FreeLancing.Services
             _dbContext = dbContext;
         }
 
-        public IList<Job> GetPostedJobs(string organizationEmail)
+        public IList<Job> GetPostedJobsNotAssigned(string organizationEmail)
         {
             return _dbContext.Jobs
                 .Include(a=>a.Organization)
                     .Include(c=>c.Tag)
                         .Include(d=>d.JobBids)
-                            .Where(b=>(b.Organization.Email == organizationEmail))
+                            .Where(b=>(b.Organization.Email == organizationEmail && b.IsAssigned==false))
                                 .ToList();
         }
 
@@ -76,6 +76,20 @@ namespace FreeLancing.Services
                                             .ThenInclude(g=>g.Job)
                                                 .Select(e => e.JobBids)
                                                     .FirstOrDefault();
+        }
+
+        public Bid ApproveBid(int bidId)
+        {
+            var bid = _dbContext.Bids.FirstOrDefault(a => a.Id == bidId);
+            var deleteBids = _dbContext.Bids.Where(a => a.JobId == bid.JobId && a.Id != bid.Id).ToList();
+            if(deleteBids != null)
+            _dbContext.Bids.RemoveRange(deleteBids);
+            var job = _dbContext.Jobs.FirstOrDefault(a => a.Id == bid.JobId);
+            job.IsAssigned = true;
+            var result = _dbContext.SaveChanges();
+            if (result > 0)
+                return _dbContext.Bids.Include(a=>a.Job).FirstOrDefault(a => a.Id == bidId);
+            return null;
         }
     }
 }

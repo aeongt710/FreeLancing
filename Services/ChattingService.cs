@@ -135,5 +135,11 @@ namespace FreeLancing.Services
                 }).ToList();
             return messages;
         }
+
+        public async Task<bool> SendNotificationToUser(string userId, string msg)
+        {
+            await _hubContext.Clients.User(userId).SendAsync("ReceiveNotification", msg);
+            return false;
+        }
     }
 }

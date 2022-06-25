@@ -5,11 +5,32 @@ var connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Information)
     .build();
 
+connection.on("ReceiveNotification", function (message) {
+    console.log(message);
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "15000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr["warning"](message);
+});
+
 connection.on("ReceivePrivateMessage", function (message) {
     //console.log(message);
     //<i class="bi bi-person"></i>     <img src="/img/vectors/person.png" alt=""></div>
     if (message.isSender) {
-        console.log(message);
         var x = `<div class="single-text sent"> <div class= "profile-pic" > </div>   <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `;
         $("#allMessages").append(x);
     } else {

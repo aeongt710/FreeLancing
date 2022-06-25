@@ -25,7 +25,7 @@ namespace FreeLancing.Areas.Organization.Controllers
         public IActionResult Index()
         {
             var postedJobs=_jobService.GetPostedJobs(HttpContext.User.Identity.Name);
-            TempData["success"] = "Job Posted Sucessfully";
+            TempData["success"] = "Index Loaded";
             return View(postedJobs);
         }
         public IActionResult PostNewJob()
@@ -66,10 +66,21 @@ namespace FreeLancing.Areas.Organization.Controllers
             }
             return NotFound("User Not Found!");
         }
+        [HttpPost]
+        public async Task<IActionResult> ApproveBidAsync(int bidId)
+        {
+            var result = _jobService.ApproveBid(bidId);
+            if(result!=null)
+            {
+                await _chattingService.SendNotificationToUser(result.BidderId, HttpContext.User.Identity.Name + " approved your bid on " + result.Job.Title);
+                TempData["success"] = "Job Approved Sucessfully";
+                return RedirectToAction(nameof(Index));
+            }
 
+            return RedirectToAction(nameof(BidsOnJob),new {jobId = result.JobId});
+        }
         public IActionResult test()
         {
-
             return View();
         }
 

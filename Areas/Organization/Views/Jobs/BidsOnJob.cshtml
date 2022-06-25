@@ -1,8 +1,12 @@
-﻿@model IEnumerable<FreeLancing.Models.Bid>
+﻿
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@model IEnumerable<FreeLancing.Models.Bid>
+<br />
+<h3>
+
+    Bids @if(Model.FirstOrDefault()!=null){<div>On @Model.FirstOrDefault().Job.Title</div>}
+</h3>
+<br />
 <table class="table">
     <thead>
         <tr>
@@ -19,31 +23,38 @@
                 @Html.DisplayNameFor(model => model.Job.Durtion)
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @*@if (Model != null)*@
         @*{*@
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BidAmount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Bidder.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Job.Durtion)
-                    </td>
-                    <td>
-                        <a asp-action="Chat" asp-route-email="@item.Bidder.Email"><i class="bi bi-chat-left-text" style="font-size: 21px;"></i></a>
-                    </td>
-                </tr>
-            }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BidAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bidder.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Job.Durtion)
+                </td>
+                <td>
+                    <a asp-action="Chat" asp-route-email="@item.Bidder.Email"><i class="bi bi-chat-left-text" style="font-size: 21px;"></i></a>
+                </td>
+                <td>
+                    <form id="@item.Id" method="post" asp-action="ApproveBid">
+                        <input name="bidId" value="@item.Id" type="hidden"/>
+                    </form>
+                    <a onclick="document.getElementById('@item.Id').submit();"><i class="bi bi-box-arrow-in-right" style="font-size: 25px;"></i></a>
+                </td>
+            </tr>
+        }
 
         @*}*@
 
