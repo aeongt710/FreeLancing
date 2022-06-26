@@ -1,0 +1,79 @@
+﻿@model IEnumerable<FreeLancing.Models.Job>
+
+@{
+    ViewData["Title"] = "Posted";
+}
+
+<br />
+<h1>Posted Jobs</h1>
+
+
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Durtion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAssigned)
+            </th>
+            <th>
+                View Bids
+            </th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Durtion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tag.TagText)
+                </td>
+
+                <td>
+                    @if (item.IsAssigned)
+                    {
+                        <div>asigned to</div>
+                    }
+                    else
+                    {
+                        <i class="bi bi-hourglass-split btn-group-vertical" style="font-size: 21px; color: cornflowerblue;"></i>
+                    }
+                </td>
+                <td>
+                    <a asp-action="BidsOnJob" asp-route-jobId="@item.Id">bids</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<FreeLancing.Models.Bid>
+
+@{
+    ViewData["Title"] = "InProgressJobs";
+}
+
+<h1>In Progress Jobs</h1>
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Job.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Job.Organization.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BidAmount)
+            </th>
+            <th>
+                Text Now
+            </th>
+            <th>
+                Submit
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Job.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Job.Organization.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BidAmount)
+                </td>
+                <td>
+                    <a asp-action="Chat" asp-route-email="@item.Job.Organization.Email"><i class="bi bi-chat-left-text" style="font-size: 21px;"></i></a>
+                </td>
+                <td>
+                    @if (item.Job.IsSubmitted == false)
+                    {
+                         <a asp-action="SubmitJob" asp-route-jobId="@item.JobId"><i class="bi bi-check2" style="font-size: 21px;"></i></a>
+                    }
+                    else
+                    {
+                        <div>Confirmation Pending...</div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

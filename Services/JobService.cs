@@ -30,11 +30,22 @@ namespace FreeLancing.Services
         public IList<Job> GetPostedJobsNotAssigned(string organizationEmail)
         {
             return _dbContext.Jobs
-                .Include(a=>a.Organization)
-                    .Include(c=>c.Tag)
-                        .Include(d=>d.JobBids)
-                            .Where(b=>(b.Organization.Email == organizationEmail && b.IsAssigned==false))
+                .Include(a => a.Organization)
+                    .Include(c => c.Tag)
+                        .Include(d => d.JobBids)
+                            .Where(b => (b.Organization.Email == organizationEmail && b.IsAssigned == false))
                                 .ToList();
+        }
+
+        public IList<Job> GetInProgressJobs(string organizationEmail)
+        {
+            return _dbContext.Jobs
+                .Include(a => a.Organization)
+                    .Include(c => c.Tag)
+                        .Include(d => d.JobBids)
+                            .ThenInclude(e=>e.Bidder)
+                                .Where(b => (b.Organization.Email == organizationEmail && b.IsAssigned == true && b.IsCompleted== false))
+                                    .ToList();
         }
 
         public IList<CustomTag> GetTagList()
@@ -53,12 +64,12 @@ namespace FreeLancing.Services
                 Salary = postNewJobVM.Salary,
                 OrganizationId = user.Id,
                 Durtion = postNewJobVM.Durtion,
-                IsAssigned =false,
-                IsCompleted=false,
-                IsSubmitted=false
-                
+                IsAssigned = false,
+                IsCompleted = false,
+                IsSubmitted = false
+
             });
-            var result=await _dbContext.SaveChangesAsync();
+            var result = await _dbContext.SaveChangesAsync();
             if (result > 0)
                 return true;
             return false;
@@ -70,10 +81,10 @@ namespace FreeLancing.Services
                     .Include(c => c.Tag)
                         .Include(d => d.JobBids)
                             .Where(b => (b.Id == jobId))
-                                .Include(e=>e.JobBids)
-                                    .ThenInclude(f=>f.Bidder)
-                                        .Include(h=>h.JobBids)
-                                            .ThenInclude(g=>g.Job)
+                                .Include(e => e.JobBids)
+                                    .ThenInclude(f => f.Bidder)
+                                        .Include(h => h.JobBids)
+                                            .ThenInclude(g => g.Job)
                                                 .Select(e => e.JobBids)
                                                     .FirstOrDefault();
         }
@@ -82,14 +93,34 @@ namespace FreeLancing.Services
         {
             var bid = _dbContext.Bids.FirstOrDefault(a => a.Id == bidId);
             var deleteBids = _dbContext.Bids.Where(a => a.JobId == bid.JobId && a.Id != bid.Id).ToList();
-            if(deleteBids != null)
-            _dbContext.Bids.RemoveRange(deleteBids);
+            if (deleteBids != null)
+                _dbContext.Bids.RemoveRange(deleteBids);
             var job = _dbContext.Jobs.FirstOrDefault(a => a.Id == bid.JobId);
             job.IsAssigned = true;
             var result = _dbContext.SaveChanges();
             if (result > 0)
-                return _dbContext.Bids.Include(a=>a.Job).FirstOrDefault(a => a.Id == bidId);
+                return _dbContext.Bids.Include(a => a.Job).FirstOrDefault(a => a.Id == bidId);
             return null;
+        }
+        public Job MarkComplete(int jobId)
+        {
+            var job = _dbContext.Jobs.Include(a=>a.JobBids).FirstOrDefault(a => a.Id == jobId);
+            job.IsCompleted = true;
+            _dbContext.Jobs.Update(job);
+            var result = _dbContext.SaveChanges();
+            if (result > 0)
+                return job;
+            return null;
+        }
+        public IList<Job> GetCompleted(string organizationEmail)
+        {
+            return _dbContext.Jobs
+                .Include(a => a.Organization)
+                    .Include(c => c.Tag)
+                        .Include(d => d.JobBids)
+                            .ThenInclude(e => e.Bidder)
+                                .Where(b => (b.Organization.Email == organizationEmail && b.IsAssigned == true && b.IsCompleted == true))
+                                    .ToList();
         }
     }
 }

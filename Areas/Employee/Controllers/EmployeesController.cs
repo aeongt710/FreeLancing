@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FreeLancing.Areas.Employee.Controllers
 {
-    [Authorize(Roles ="Employee")]
+    [Authorize(Roles = "Employee")]
     public class EmployeesController : Controller
     {
         private readonly IEmployeeService _employeeService;
@@ -16,9 +16,13 @@ namespace FreeLancing.Areas.Employee.Controllers
             _employeeService = employeeService;
             _chattingService = chattingService;
         }
-        public async Task<IActionResult> Index(string query)
+        public async Task<IActionResult> Index()
         {
-            if(query !=null)
+            return View();
+        }
+        public async Task<IActionResult> AvialableJobs(string query)
+        {
+            if (query != null)
             {
                 var queryJobs = await _employeeService.GetAvailableJobsSearch(HttpContext.User.Identity.Name, query);
                 return View(queryJobs);
@@ -26,24 +30,30 @@ namespace FreeLancing.Areas.Employee.Controllers
             var jobs = await _employeeService.GetAvailableJobs(HttpContext.User.Identity.Name);
             return View(jobs);
         }
+
+        public IActionResult InProgressJobs()
+        {
+            var inprogress = _employeeService.GetInProgressBids(HttpContext.User.Identity.Name);
+            return View(inprogress);
+        }
         public IActionResult BidNow(int jobId)
         {
             if (jobId == 0)
                 return NotFound();
-            var bid=new Bid() { JobId = jobId };
+            var bid = new Bid() { JobId = jobId };
             return View(bid);
         }
         [HttpPost]
         [ActionName("BidNow")]
         public async Task<IActionResult> BidNowPost(Bid bid)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var result= await _employeeService.AddNewBid(bid,HttpContext.User.Identity.Name);
-                if(result)
+                var result = await _employeeService.AddNewBid(bid, HttpContext.User.Identity.Name);
+                if (result)
                 {
                     Bid x = _employeeService.GetBidById(bid.Id);
-                    await _chattingService.SendNotificationToUser(bid.Job.OrganizationId,HttpContext.User.Identity.Name+" bidded on your job.");
+                    await _chattingService.SendNotificationToUser(bid.Job.OrganizationId, HttpContext.User.Identity.Name + " bidded on your job.");
                     TempData["success"] = "Successfully Bidded";
                     return RedirectToAction(nameof(Index));
                 }
@@ -54,6 +64,16 @@ namespace FreeLancing.Areas.Employee.Controllers
         {
             var bids = await _employeeService.GetCurrentBids(HttpContext.User.Identity.Name);
             return View(bids);
+        }
+        public async Task<IActionResult> SubmitJob(int jobId)
+        {
+            var result =  _employeeService.SubmitJob(jobId);
+            if(result!=null)
+            {
+                TempData["success"] = "Sucessfully Submitted";
+                await _chattingService.SendNotificationToUser(result.OrganizationId, HttpContext.User.Identity.Name + " submitted your job "+result.Title);
+            }
+            return RedirectToAction(nameof(InProgressJobs));
         }
         public IActionResult Chat(string email)
         {

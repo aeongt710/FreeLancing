@@ -11,5 +11,7 @@ namespace FreeLancing.Services.IServices
         public Task<List<Job>> GetAvailableJobsSearch(string email, string query);
         public Task<List<Bid>> GetCurrentBids(string email);
         public Bid GetBidById(int Id);
+        public List<Bid> GetInProgressBids(string email);
+        public Job SubmitJob(int jobId);
     }
 }

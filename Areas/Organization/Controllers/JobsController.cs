@@ -22,12 +22,19 @@ namespace FreeLancing.Areas.Organization.Controllers
             _chattingService = chattingService;
         }
 
-        public IActionResult Index()
+        public IActionResult Posted()
         {
-            var postedJobs=_jobService.GetPostedJobs(HttpContext.User.Identity.Name);
+            var postedJobs=_jobService.GetPostedJobsNotAssigned(HttpContext.User.Identity.Name);
             TempData["success"] = "Index Loaded";
             return View(postedJobs);
         }
+        public IActionResult InProgressJobs()
+        {
+            var inprogress = _jobService.GetInProgressJobs(HttpContext.User.Identity.Name);
+            TempData["success"] = "InProgress Loaded";
+            return View(inprogress);
+        }
+
         public IActionResult PostNewJob()
         {
             ViewBag.TagList = _jobService.GetTagList().Select(p => new SelectListItem { Text = p.TagText, Value = p.Id.ToString() }).ToList(); 
@@ -44,7 +51,7 @@ namespace FreeLancing.Areas.Organization.Controllers
                 if (result)
                 {
                     TempData["success"] = "Job Posted Sucessfully";
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Posted));
                 }
                     
             }
@@ -74,14 +81,26 @@ namespace FreeLancing.Areas.Organization.Controllers
             {
                 await _chattingService.SendNotificationToUser(result.BidderId, HttpContext.User.Identity.Name + " approved your bid on " + result.Job.Title);
                 TempData["success"] = "Job Approved Sucessfully";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Posted));
             }
 
             return RedirectToAction(nameof(BidsOnJob),new {jobId = result.JobId});
         }
-        public IActionResult test()
+        public async Task<IActionResult> MarkComplete(int jobId)
         {
-            return View();
+            var result = _jobService.MarkComplete(jobId);
+            if (result != null)
+            {
+                await _chattingService.SendNotificationToUser(result.JobBids.FirstOrDefault().BidderId, HttpContext.User.Identity.Name + " marked your assigned job '"+ result.Title+ "' complete.");
+                TempData["success"] = "Job marked complete Sucessfully";
+            }
+            return RedirectToAction(nameof(InProgressJobs));
+        }
+        public IActionResult CompletedJobs()
+        {
+            var inprogress = _jobService.GetCompleted(HttpContext.User.Identity.Name);
+            TempData["success"] = "InProgress Loaded";
+            return View(inprogress);
         }
 
     }

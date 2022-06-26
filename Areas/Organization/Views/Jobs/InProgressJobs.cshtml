@@ -1,0 +1,97 @@
+﻿@model IEnumerable<FreeLancing.Models.Job>
+
+@{
+    ViewData["Title"] = "In Progress";
+}
+
+<br />
+<h1>In Progress Jobs</h1>
+
+
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Durtion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tag)
+            </th>
+            <th>
+                Assigned To
+            </th>
+            <th>
+                Text Now
+            </th>
+            <th>
+                Mark Complete
+            </th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Salary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Durtion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tag.TagText)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobBids.FirstOrDefault().Bidder.Email)
+                    </td>
+                    <td>
+                        @if (item.JobBids.FirstOrDefault() != null)
+                        {
+                            <a asp-action="Chat" asp-route-email="@item.JobBids.FirstOrDefault().Bidder.Email"><i class="bi bi-chat-left-text" style="font-size: 21px;"></i></a>
+
+                        }
+
+                    </td>
+                    <td class="col-2">
+                        <center>
+                            @if (item.JobBids.FirstOrDefault() != null)
+                            {
+                                if (item.IsSubmitted == false)
+                                {
+                                    <a><i class="bi bi-hourglass-split" style="font-size: 21px;"></i></a>
+                                }
+                                else
+                                {
+                                    <a asp-action="MarkComplete" asp-route-jobId="@item.Id"><i class="bi bi-check2-all" style="font-size: 21px;"></i></a>
+                                }
+                            }
+
+                        </center>
+                    </td>
+
+                </tr>
+            }
+    </tbody>
+</table>
