@@ -15,7 +15,7 @@
     <header>
         <nav id="mainHeader" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FreeLancing</a>
+                <a class="navbar-brand" asp-area="HomePage" asp-controller="HomePage" asp-action="Index">FreeLancing</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -47,7 +47,10 @@
                                 <a class="nav-link text-dark" asp-area="Employee" asp-controller="Employees" asp-action="Bids">Bids </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Employee" asp-controller="Employees" asp-action="InProgressJobs">InPrgress Jobs </a>
+                                <a class="nav-link text-dark" asp-area="Employee" asp-controller="Employees" asp-action="InProgressJobs">In Prgress Jobs </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Employee" asp-controller="Employees" asp-action="Completed">Completed </a>
                             </li>
 
                         }

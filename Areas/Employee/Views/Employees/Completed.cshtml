@@ -1,0 +1,64 @@
+﻿@model IEnumerable<FreeLancing.Models.Job>
+
+@{
+    ViewData["Title"] = "Completed Jobs";
+}
+
+<br />
+<h1>Completed Jobs</h1>
+
+
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobBids.FirstOrDefault().BidAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Durtion)
+            </th>
+            <th>
+                Amount
+            </th>
+
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobBids.FirstOrDefault().BidAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Durtion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobBids.FirstOrDefault().BidAmount)
+                    </td>
+
+
+                  
+
+                </tr>
+            }
+    </tbody>
+</table>

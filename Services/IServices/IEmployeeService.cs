@@ -13,5 +13,7 @@ namespace FreeLancing.Services.IServices
         public Bid GetBidById(int Id);
         public List<Bid> GetInProgressBids(string email);
         public Job SubmitJob(int jobId);
+        public IList<Bid> GetAllNavOfBids(string bidderEmail);
+        public IList<Job> GetCompletedJobs(string bidderEmail);
     }
 }

@@ -3,7 +3,21 @@
 {
     <div >
         <form id="logoutForm" asp-area="Account" asp-controller="Account" asp-action="LogOff" class="row col-m-12 align-content-md-between" method="post" asp-controller="Account">
-            <div class="text-decoration-none p-1 nav-link text-dark">Hello @User.Identity.Name</div>
+            @if (User.IsInRole("Employee"))
+            {
+                <a id="e1" asp-area="Employee" asp-controller="Employees" asp-action="Index" hidden></a>
+                <div onclick="document.getElementById('e1').click()" class="text-decoration-none p-1 nav-link text-dark">Hello @User.Identity.Name</div>
+
+            }else if(User.IsInRole("Employee"))
+            {
+                 <a id="e2" asp-area="Organization" asp-controller="Jobs" asp-action="Index" hidden></a>
+                <div onclick="document.getElementById('e2').click()" class="text-decoration-none p-1 nav-link text-dark">Hello @User.Identity.Name</div>
+            }
+            else
+            {
+                <div  class="text-decoration-none p-1 nav-link text-dark">Hello @User.Identity.Name</div>
+            
+            }
             <a href="javascript:document.getElementById('logoutForm').submit()" class="text-decoration-none p-1 nav-link text-dark">Logout</a>
         </form>
     </div>

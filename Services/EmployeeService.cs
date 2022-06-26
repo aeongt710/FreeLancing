@@ -100,5 +100,22 @@ namespace FreeLancing.Services
                 return job;
             return null;
         }
+
+        public IList<Bid> GetAllNavOfBids(string bidderEmail)
+        {
+            return _dbContext.Bids.Include(a => a.Bidder).Include(c => c.Job)
+                .Where(b => b.Bidder.Email == bidderEmail).ToList();
+                
+        }
+
+        public IList<Job> GetCompletedJobs(string bidderEmail)
+        {
+            return _dbContext.Bids.Include(a => a.Bidder)
+                .Include(c => c.Job)
+                    .ThenInclude(x=>x.JobBids)
+                        .Where(b => b.Bidder.Email == bidderEmail&&b.Job.IsCompleted==true)
+                            .Select(a=>a.Job)
+                                .ToList();
+        }
     }
 }

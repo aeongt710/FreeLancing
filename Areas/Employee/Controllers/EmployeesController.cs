@@ -18,7 +18,8 @@ namespace FreeLancing.Areas.Employee.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            return View();
+            var bids = _employeeService.GetAllNavOfBids(HttpContext.User.Identity.Name);
+            return View(bids);
         }
         public async Task<IActionResult> AvialableJobs(string query)
         {
@@ -82,6 +83,12 @@ namespace FreeLancing.Areas.Employee.Controllers
                 return View(nameof(Chat), email);
             }
             return NotFound("User Not Found!");
+        }
+
+        public IActionResult Completed()
+        {
+            var jobs = _employeeService.GetCompletedJobs(HttpContext.User.Identity.Name);
+            return View(jobs);
         }
     }
 }
