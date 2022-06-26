@@ -17,5 +17,6 @@ namespace FreeLancing.Services.IServices
         public Bid ApproveBid(int bidId);
         public Job MarkComplete(int jobId);
         public IList<Job> GetCompleted(string organizationEmail);
+        public IList<Job> GetAllNavOfJobs(string organizationEmail);
     }
 }

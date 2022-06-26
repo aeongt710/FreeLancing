@@ -122,5 +122,15 @@ namespace FreeLancing.Services
                                 .Where(b => (b.Organization.Email == organizationEmail && b.IsAssigned == true && b.IsCompleted == true))
                                     .ToList();
         }
+        public IList<Job> GetAllNavOfJobs(string organizationEmail)
+        {
+            return _dbContext.Jobs
+                .Include(a => a.Organization)
+                    .Include(c => c.Tag)
+                        .Include(d => d.JobBids)
+                            .ThenInclude(e => e.Bidder)
+                                .Where(b => (b.Organization.Email == organizationEmail))
+                                    .ToList();
+        }
     }
 }

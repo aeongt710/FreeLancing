@@ -21,7 +21,11 @@ namespace FreeLancing.Areas.Organization.Controllers
             _jobService = jobService;
             _chattingService = chattingService;
         }
-
+        public IActionResult Index()
+        {
+            var jobs = _jobService.GetAllNavOfJobs(HttpContext.User.Identity.Name);
+            return View(jobs);
+        }
         public IActionResult Posted()
         {
             var postedJobs=_jobService.GetPostedJobsNotAssigned(HttpContext.User.Identity.Name);
