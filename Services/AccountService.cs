@@ -4,7 +4,7 @@ using FreeLancing.Models.VMs;
 using FreeLancing.Services.IServices;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-
+using System.Linq;
 namespace FreeLancing.Services
 {
     public class AccountService : IAccountService
@@ -40,45 +40,49 @@ namespace FreeLancing.Services
         }
 
         public async Task<string> RegisterNewUser(RegisterVM registerVM)
-    {
-        checkRoles();
-        var _user = new ApplicationUser
         {
-            Email = registerVM.Email,
-            FullName = registerVM.Name,
-            UserName = registerVM.Email
-        };
-        var result = _userManager.CreateAsync(_user, registerVM.Password).Result;
-        if (result.Succeeded)
-        {
-            if (registerVM.isIndividual)
-                await _userManager.AddToRoleAsync(_user, Utility.Helper.RoleEmployee);
-            else
-                await _userManager.AddToRoleAsync(_user, Utility.Helper.RoleOrganization);
-            await _signInManager.SignInAsync(_user, isPersistent: false);
-
-        }
-        else
-        {
-            string output = string.Empty;
-            foreach (var item in result.Errors)
+            checkRoles();
+            var _user = new ApplicationUser
             {
-                output = output + item.Description;
+                Email = registerVM.Email,
+                FullName = registerVM.Name,
+                UserName = registerVM.Email
+            };
+            var result = _userManager.CreateAsync(_user, registerVM.Password).Result;
+            if (result.Succeeded)
+            {
+                var uuserlist = _userManager.Users.ToList();
+                if(uuserlist.Count()==1)
+                    await _userManager.AddToRoleAsync(_user, "Admin");
+                else if (registerVM.isIndividual)
+                    await _userManager.AddToRoleAsync(_user, Utility.Helper.RoleEmployee);
+                else
+                    await _userManager.AddToRoleAsync(_user, Utility.Helper.RoleOrganization);
+                await _signInManager.SignInAsync(_user, isPersistent: false);
+
             }
-            return output;
+            else
+            {
+                string output = string.Empty;
+                foreach (var item in result.Errors)
+                {
+                    output = output + item.Description;
+                }
+                return output;
+            }
+
+
+            return null;
         }
-
-
-        return null;
-    }
-    private void checkRoles()
-    {
-        if (!_roleManager.RoleExistsAsync(Utility.Helper.RoleEmployee).GetAwaiter().GetResult())
+        private void checkRoles()
         {
-            _roleManager.CreateAsync(new IdentityRole(Utility.Helper.RoleEmployee)).GetAwaiter().GetResult();
-            _roleManager.CreateAsync(new IdentityRole(Utility.Helper.RoleOrganization)).GetAwaiter().GetResult();
+            if (!_roleManager.RoleExistsAsync(Utility.Helper.RoleEmployee).GetAwaiter().GetResult())
+            {
+                _roleManager.CreateAsync(new IdentityRole("Admin")).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(Utility.Helper.RoleEmployee)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(Utility.Helper.RoleOrganization)).GetAwaiter().GetResult();
+            }
         }
-    }
 
-}
+    }
 }

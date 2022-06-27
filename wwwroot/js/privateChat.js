@@ -31,10 +31,10 @@ connection.on("ReceivePrivateMessage", function (message) {
     //console.log(message);
     //<i class="bi bi-person"></i>     <img src="/img/vectors/person.png" alt=""></div>
     if (message.isSender) {
-        var x = `<div class="single-text sent"> <div class= "profile-pic" > </div>   <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `;
+        var x = `<div class="single-text sent"> <div class= "profile-pic" > <img src="/img/vectors/person.png" alt=""></div>   <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `;
         $("#allMessages").append(x);
     } else {
-        $("#allMessages").append(`<div  class="single-text"><div class="profile-pi">        <i class="bi bi-person"></i>   </div>  <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div></div>`);
+        $("#allMessages").append(`<div  class="single-text"><div class="profile-pi">       <img src="/img/vectors/person.png" alt="">  </div>  <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div></div>`);
 
     }
     //$(`#${a}`).show();
@@ -64,12 +64,12 @@ window.addEventListener("load", function () {
 
                 if (message.isSender) {
                     //document.getElementById('allMessages').innerHTML += `<div class="single-text sent"> <div class= "profile-pic" ><img src="/img/vectors/person.png" alt=""></div>    <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `;
-                    $("#allMessages").append(`<div class="single-text sent"> <div class= "profile-pi" > <i class="bi bi-person"></i></div>    <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `);
+                    $("#allMessages").append(`<div class="single-text sent"> <div class= "profile-pi" > <img src="/img/vectors/person.png" alt=""></div>    <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `);
 
                 }
                 else {
                     //document.getElementById('allMessages').innerHTML += `<div class="single-text sent"> <div class= "profile-pic" ><img src="/img/vectors/person.png" alt=""></div>    <div class="text-content"><h5>${message.sender}</h5>${message.text}<span class="timestamp">${message.time}</span></div>    </div > `;
-                    $("#allMessages").append(`<div class="single-text"><div class="profile-pic">     <i class="bi bi-person"></i></div>    <div class="text-content"><h5>${message.sender+"asd"}</h5>${message.text}<span class="timestamp">${message.time}</span></div></div>`);
+                    $("#allMessages").append(`<div class="single-text"><div class="profile-pic">     <img src="/img/vectors/person.png" alt=""></div>    <div class="text-content"><h5>${message.sender+"asd"}</h5>${message.text}<span class="timestamp">${message.time}</span></div></div>`);
 
                 }
                 $("#allMessages").scrollTop($("#allMessages")[0].scrollHeight);

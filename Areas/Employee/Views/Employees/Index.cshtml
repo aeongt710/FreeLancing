@@ -77,7 +77,7 @@
                 </div>
                 <div class="contentx">
                     <h1 class="titlex"><a  class="titlex_a">Pending Balance</a></h1>
-                    <h3 class="valuex">@Model.Where(c=>c.Job.IsCompleted==false).Select(a=>a.BidAmount).Sum() Rs</h3>
+                    <h3 class="valuex">@Model.Where(c=>c.Job.IsCompleted==false&&c.Job.IsAssigned==true).Select(a=>a.BidAmount).Sum() Rs</h3>
                 </div>
             </div>
             <div>
