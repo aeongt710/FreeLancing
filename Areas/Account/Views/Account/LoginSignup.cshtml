@@ -210,7 +210,7 @@ else if(TempData["error"] != null)
                                 </div>
                                 <div>
                                     <div style="padding-bottom:3px">
-                                        <label id="roleLabel">Individual?</label>
+                                        <label id="roleLabel">Organization</label> 
                                     </div>
                                     <label class="switch">
                                         <input asp-for="isIndividual" id="inputCheckBox" type="checkbox" onclick="roleCheck(this.value);">
@@ -241,3 +241,14 @@ else if(TempData["error"] != null)
 
 </body>
 </html>
+
+<script>
+
+function roleCheck(e) {
+    console.log(document.getElementById('roleLabel').innerHTML)
+    if(document.getElementById('roleLabel').innerHTML=="Organization")
+        $('#roleLabel').html("User");
+    else
+        $('#roleLabel').html("Organization");
+}
+</script>
