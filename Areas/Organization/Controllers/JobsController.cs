@@ -29,13 +29,13 @@ namespace FreeLancing.Areas.Organization.Controllers
         public IActionResult Posted()
         {
             var postedJobs=_jobService.GetPostedJobsNotAssigned(HttpContext.User.Identity.Name);
-            TempData["success"] = "Index Loaded";
+            //TempData["success"] = "Index Loaded";
             return View(postedJobs);
         }
         public IActionResult InProgressJobs()
         {
             var inprogress = _jobService.GetInProgressJobs(HttpContext.User.Identity.Name);
-            TempData["success"] = "InProgress Loaded";
+            //TempData["success"] = "InProgress Loaded";
             return View(inprogress);
         }
 
@@ -103,7 +103,7 @@ namespace FreeLancing.Areas.Organization.Controllers
         public IActionResult CompletedJobs()
         {
             var inprogress = _jobService.GetCompleted(HttpContext.User.Identity.Name);
-            TempData["success"] = "InProgress Loaded";
+            //TempData["success"] = "InProgress Loaded";
             return View(inprogress);
         }
 
